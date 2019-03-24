@@ -1,0 +1,32 @@
+{
+  "name": "kafka-node-demo",
+  "version": "1.0.0",
+  "description": "Simple kafka demo to showcase some features",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel src --out-dir build --extensions '.ts'",
+    "seed:users": "ts-node src/seed/users",
+    "consumers:log": "ts-node src/consumers/log"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/low-ghost/kafka-node-demo"
+  },
+  "keywords": [
+    "kafka",
+    "kafka-node",
+    "ksql"
+  ],
+  "author": "Mike Bagwell",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^11.11.6",
+    "casual": "^1.6.0",
+    "commander": "^2.19.0",
+    "isomorphic-fetch": "^2.2.1",
+    "kafka-node": "^4.0.2",
+    "ts-node": "^8.0.3",
+    "typescript": "^3.3.4000"
+  }
+}

@@ -1,0 +1,5 @@
+# In case confluent cli is extracted in this dir
+confluent-*/
+# Normal node stuff
+node_modules/
+package-lock.json
