@@ -18,16 +18,14 @@ export const getClient = async (): Promise<KafkaClient> => {
 export const formatKsql = (query: string): string =>
   query.split('\n').join(' ') + ';';
 
-export const formatKsqlBody = (
-  query: string,
-  streamsProperties?: {} | null
-) => JSON.stringify({
-  ksql: formatKsql(query),
-  ...(streamsProperties ? { streamsProperties } : {})
-});
+export const formatKsqlBody = (query: string, streamsProperties?: {} | null) =>
+  JSON.stringify({
+    ksql: formatKsql(query),
+    ...(streamsProperties ? { streamsProperties } : {}),
+  });
 
 export const getKsqlError = async (response: any) => {
-  return new Error(JSON.stringify((await response.json())));
+  return new Error(JSON.stringify(await response.json()));
 };
 
 export const ksqlStatement = async (
@@ -38,17 +36,15 @@ export const ksqlStatement = async (
   };
   const params = { method: 'POST', headers, body: formatKsqlBody(...args) };
   const response = await fetch(`${KSQL_URL}/ksql`, params);
-  if (!response.ok) throw getKsqlError(response)
+  if (!response.ok) throw getKsqlError(response);
   return await response.json();
 };
 
-export const ksqlQuery = async (
-  ...args: [string, {} | null]
-): Promise<any> => {
+export const ksqlQuery = async (...args: [string, {} | null]): Promise<any> => {
   const headers = { 'Content-Type': 'application/json' };
   const params = { method: 'POST', headers, body: formatKsqlBody(...args) };
   const response = await fetch(`${KSQL_URL}/query`, params);
-  if (!response.ok) throw getKsqlError(response)
+  if (!response.ok) throw getKsqlError(response);
 
   const buffer = await (response as any).buffer();
   return buffer
