@@ -8,7 +8,7 @@
     "lint": "eslint src/**/*.ts",
     "format": "prettier --write 'src/**/*.ts' '*.json'",
     "build": "babel src --out-dir build --extensions '.ts'",
-    "seed:users": "ts-node src/seed/users",
+    "seed": "ts-node src/seed",
     "consumers:log": "ts-node src/consumers/log"
   },
   "repository": {

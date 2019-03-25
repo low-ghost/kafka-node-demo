@@ -3,13 +3,9 @@ import { KafkaClient } from 'kafka-node';
 
 const KSQL_URL = 'http://localhost:8088';
 
-let client: KafkaClient;
-
 export const getClient = async (): Promise<KafkaClient> => {
-  // Cached/module scoped client variable.
-  if (client) return client;
   // Get client for local kafka.
-  client = new KafkaClient({ kafkaHost: 'localhost:9092' });
+  const client = new KafkaClient({ kafkaHost: 'localhost:9092' });
   // Wait for ready state.
   await new Promise(resolve => client.on('ready', () => resolve()));
   return client;
@@ -36,7 +32,7 @@ export const ksqlStatement = async (
   };
   const params = { method: 'POST', headers, body: formatKsqlBody(...args) };
   const response = await fetch(`${KSQL_URL}/ksql`, params);
-  if (!response.ok) throw getKsqlError(response);
+  if (!response.ok) throw await getKsqlError(response);
   return await response.json();
 };
 
@@ -44,7 +40,7 @@ export const ksqlQuery = async (...args: [string, {} | null]): Promise<any> => {
   const headers = { 'Content-Type': 'application/json' };
   const params = { method: 'POST', headers, body: formatKsqlBody(...args) };
   const response = await fetch(`${KSQL_URL}/query`, params);
-  if (!response.ok) throw getKsqlError(response);
+  if (!response.ok) throw await getKsqlError(response);
 
   const buffer = await (response as any).buffer();
   return buffer
